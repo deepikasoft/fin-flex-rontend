@@ -22,17 +22,18 @@ function Residential() {
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-        console.log(formData)
+        console.log(event)
     };
 
     const handleSubmit = (formData) => {
         console.log(formData)
-        axios.post("http://localhost:5000/persons", formData).then((res) => {
+        axios.post("http://localhost:5000/resedential", formData).then((res) => {
             console.log(res);
             toast.success("data saved")
         }).catch((error) => { console.warn(error); toast.success("Something went wrong") });
 
     }
+
 
     const area = ['Area1', 'Area2', 'Area3']
     const countryList = ["IN", "IO",]
@@ -42,88 +43,53 @@ function Residential() {
     return (
         <>
             <div><Toaster /></div>
+            <div className='container'>
             <div className='user-info'>
-                <div className='container'>
+
                     <div className='heading'>
-                        <h1>UserInfo</h1>
+                        <h1 className='pb-3 pb-lg-4'>Residential Information</h1>
                     </div>
                     <div className='row'>
-                        <div className='col-12 col-lg-6'>
+                        <div className='col-12 col-lg-6 col-md-6'>
                             <div className='name-input'>
+                                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                    <InputLabel id="country">Country</InputLabel>
+                                    <Select
+                                        labelId="country"
+                                        id="country" className='mb-3'
+                                        value={formData.country}
+                                        onChange={handleChange}
+                                        name='country'
+                                        autoWidth
+                                        label="country"
+                                    >
+                                        {countryList.map((value) =>
+                                            <MenuItem value={value} key={value}>
+                                                {value}
+                                            </MenuItem>)}
+
+                                    </Select>
+                                </FormControl>
+
                                 <TextField label="Street Name" variant="outlined" className='mb-3' onChange={handleChange}
                                     id="streetName" name="streetName" value={formData.streetName} />
 
-
-                                <TextField label="Area Name" variant="outlined"
-                                    id="area" name="area" value={formData.area} onChange={handleChange} />
-
-
-                                <TextField label="Flat or Villa" variant="outlined"
-                                    id="flatOrVilla" name="flatOrVilla" value={formData.flatOrVilla} onChange={handleChange} />
-
-
-                                <TextField type='number' label="Number of beds" variant="outlined"
-                                    id="numOfBedrooms" name="numOfBedrooms" value={formData.numOfBedrooms} onChange={handleChange} />
-
-
-
-
-
-
-                                <TextField disabled={formData.owned === "No"} label="Rental value/*year" variant="outlined"
-                                    id="rent" name="rent" value={formData.rent} onChange={handleChange} />
-                                <TextField disabled={formData.owned === "No"} label="Monthly rent" variant="outlined"
-                                    id="monthlyRent" name="monthlyRent" value={formData.monthlyRent} onChange={handleChange} />
-
-
-                                <TextField disabled={formData.owned === "Yes"} label="Mortaged" variant="outlined"
-                                    id="rent" name="rent" value={formData.rent} onChange={handleChange} />
-                                <TextField disabled={formData.owned === "Yes"} label="Monthly installment" variant="outlined"
-                                    id="monthlyRent" name="monthlyRent" value={formData.monthlyRent} onChange={handleChange} />
-                            </div>
-                        </div>
-                        <div className='col-12 col-lg-6'>
+                                
                             <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <InputLabel id="demo-simple-select-autowidth-label">Area</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-autowidth-label"
-                                    id="demo-simple-select-autowidth-label" className='mb-3'
-                                    value={formData.area}
-                                    onChange={handleChange}
-                                    name='area'
-                                    autoWidth
-                                    label="area"
-                                ><MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    {area.map((value) =>
-                                        <MenuItem value={value} key={value}>
-                                            {value}
-                                        </MenuItem>)}
+                                {/* <label htmlFor='area'>Area</label> */}
 
-                                </Select>
-                            </FormControl>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <InputLabel id="country">Country</InputLabel>
-                                <Select
-                                    labelId="country"
-                                    id="country" className='mb-3'
-                                    value={formData.country}
-                                    onChange={handleChange}
-                                    name='country'
-                                    autoWidth
-                                    label="country"
-                                ><MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    {countryList.map((value) =>
-                                        <MenuItem value={value} key={value}>
-                                            {value}
-                                        </MenuItem>)}
 
-                                </Select>
-                            </FormControl>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <div className='mb-3 area-right'>
+                                    
+                                        <input list="area" onChange={handleChange} name="area" placeholder="Select An Area" />
+                                        <datalist id="area">
+                                            {area.map((value) => <option key={value} value={value} />)}
+                                        </datalist>
+                                    </div>
+
+                            </FormControl>   
+
+                                  <FormControl sx={{ m: 1, minWidth: 80 }}>
                                 <InputLabel id="emirate">Emirate</InputLabel>
                                 <Select
                                     labelId="emirate"
@@ -133,22 +99,33 @@ function Residential() {
                                     name='emirate'
                                     autoWidth
                                     label="Emirate"
-                                ><MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
+                                >
                                     {emirate.map((value) =>
                                         <MenuItem value={value} key={value}>
                                             {value}
                                         </MenuItem>)}
 
                                 </Select>
-                            </FormControl>
+                            </FormControl> 
+
+                            <TextField label="Flat or Villa" className='mb-3' variant="outlined"
+                                    id="flatOrVilla" name="flatOrVilla" value={formData.flatOrVilla} onChange={handleChange} />
+                            
+                            
+                            </div>
+                        </div>
+                        <div className='col-12 col-lg-6 col-md-6'>
+
+                        <TextField type='number' label="Number of beds" className='mb-3' variant="outlined"
+                                    id="numOfBedrooms" name="numOfBedrooms" value={formData.numOfBedrooms} onChange={handleChange} />
+
+
                             <FormControl sx={{ m: 1, minWidth: 80 }}>
                                 <InputLabel id="ownedOrRented">Owned / Rented</InputLabel>
                                 <Select
                                     labelId="ownedOrRented"
                                     id="ownedOrRented" className='mb-3'
-                                    value={formData.ownedOrRented}
+                                    value={formData.owned}
                                     onChange={handleChange}
                                     name='owned'
                                     autoWidth
@@ -163,14 +140,28 @@ function Residential() {
 
                                 </Select>
                             </FormControl>
+                      
+                       
+                            <div className={formData.owned === "No" ? 'hidden' : undefined}>
+                                    <TextField label="Rental value/*year" className='mb-3' variant="outlined"
+                                        id="rent" name="rent" value={formData.rent} onChange={handleChange} />
+                                    <TextField label="Monthly rent" variant="outlined"
+                                        id="monthlyRent" name="monthlyRent" value={formData.monthlyRent} onChange={handleChange} /></div>
+
+                                <div className={formData.owned === "Yes" ? 'hidden' : undefined}>
+                                    <TextField label="Mortaged" variant="outlined"
+                                        id="rent" name="rent" value={formData.rent} onChange={handleChange} />
+                                    <TextField label="Monthly installment" className='mt-3' variant="outlined"
+                                        id="monthlyRent" name="monthlyRent" value={formData.monthlyRent} onChange={handleChange} /></div>
 
 
 
-                            <div className="mt-2 main-btn">
+                        
+                        </div>
+                        <div className="mt-4 main-btn">
                                 <button type="submit" onClick={() => handleSubmit(formData)} className="btn btn-primary me-2">Save</button>
                                 <a type="button" href='/social' className="btn btn-secondary">Next</a>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

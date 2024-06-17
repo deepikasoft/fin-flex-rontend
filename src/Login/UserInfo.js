@@ -13,8 +13,6 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 function UserInfo() {
- 
-
     const [formData, setFormData] = useState({ firstName: "", lastName: "", title: "", nationality: "", since: "", residanceOfUAE: true ,dob:""});
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -41,23 +39,44 @@ function UserInfo() {
 
 
     return (
+        
         <>
         <div><Toaster/></div>
+        <div className='container'>
             <div className='user-info'>
-                <div className='container'>
+  
                     <div className='heading'>
                         <h1>UserInfo</h1>
                     </div>
                     <div className='row'>
-                        <div className='col-12 col-lg-6'>
+                        <div className='col-12 col-lg-6 col-md-6'>
                             <div className='name-input'>
                                 <TextField label="First Name"  variant="outlined" className='mb-3'
-                                    id="firstName" name="firstName" value={formData.firstName} />
+                                    id="firstName" name="firstName" value={formData.firstName} onChange={handleChange}/>
                                 <TextField label="Last Name" variant="outlined"
-                                    id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} />
+                                    id="lastName" name="lastName" className='mb-3' value={formData.lastName} onChange={handleChange} />
                             </div>
+
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <InputLabel id="demo-simple-select-autowidth-label-Date">Since</InputLabel>
+                                <Select
+                                    labelId="since"
+                                    id="since" className='mb-3'
+                                    value={formData.since}
+                                    onChange={handleChange}
+                                    name='since'
+                                    autoWidth
+                                    label="Since"
+                                >
+                                    {since.map((value) =>
+                                        <MenuItem value={value} key={value}>
+                                            {value}
+                                        </MenuItem>)}
+
+                                </Select>
+                            </FormControl>
                         </div>
-                        <div className='col-12 col-lg-6'>
+                        <div className='col-12 col-lg-6 col-md-6'>
                             <FormControl sx={{ m: 1, minWidth: 80 }}>
                                 <InputLabel id="demo-simple-select-autowidth-label">Title</InputLabel>
                                 <Select
@@ -68,9 +87,7 @@ function UserInfo() {
                                     name='title'
                                     autoWidth
                                     label="Title"
-                                ><MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
+                                >
                                     {title.map((value) =>
                                         <MenuItem value={value} key={value}>
                                             {value}
@@ -88,9 +105,7 @@ function UserInfo() {
                                     name='nationality'
                                     autoWidth
                                     label="Nationality"
-                                ><MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
+                                >
                                     {nationalityList.map((value) =>
                                         <MenuItem value={value} key={value}>
                                             {value}
@@ -98,29 +113,10 @@ function UserInfo() {
 
                                 </Select>
                             </FormControl>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <InputLabel id="demo-simple-select-autowidth-label-Date">Since</InputLabel>
-                                <Select
-                                    labelId="since"
-                                    id="since" className='mb-3'
-                                    value={formData.since}
-                                    onChange={handleChange}
-                                    name='since'
-                                    autoWidth
-                                    label="Since"
-                                ><MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    {since.map((value) =>
-                                        <MenuItem value={value} key={value}>
-                                            {value}
-                                        </MenuItem>)}
-
-                                </Select>
-                            </FormControl>
+                     
                             <TextField
                                 id="dob"
-                                label="Date of Birth"
+                               label="Date of Birth"
                                 type="date"
                                 name='dob'
                                 onChange={handleChange}
@@ -128,16 +124,21 @@ function UserInfo() {
                                     shrink: true,
                                 }}
                             />
-                            <FormControlLabel control={<Switch checked={formData.residanceOfUAE}
+                            
+                        </div>
 
-                                onChange={handleSwitchChange}
-                                name='residanceOfUAE'
-                                defaultChecked />} label="Residence of UAE" className='mt-3 Residence-Of-UAE' />
-                            <div className="mt-2 main-btn">
+                        <div className="mt-0 main-btn">
+                       <input checked={formData.residanceOfUAE}
+                            onChange={handleSwitchChange}
+                            name='residanceOfUAE'
+                            label="Residence of UAE" className='mt-3 Residence-Of-UAE' />
+
+                        </div>
+
+                        <div className="mt-4 main-btn">
                                 <button type="submit" onClick={() =>handleSubmit(formData)} className="btn btn-primary me-2">Save</button>
                                 <a type="button" href='/social'  className="btn btn-secondary">Next</a>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

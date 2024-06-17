@@ -7,6 +7,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
+
 function Login() {
     const [inputs, setInputs] = useState({ name: '', pass: '' });
     const navigate = useNavigate();
@@ -18,8 +19,18 @@ function Login() {
     }
 
     const handleSubmit = (event) => {
-        event.preventDefault();
-        alert(inputs);
+        console.log(inputs)
+        axios.post('http://localhost:5000/google-auth', {
+            "email":inputs.name,
+            "password":inputs.pass
+        }
+        
+        ).then((res) => {
+            console.log(res.data);
+            localStorage.setItem("token", res.data.token);
+            navigate("/userInfo")
+        },
+            (error) => { console.log(error) });
     }
     const responseMessage = (response) => {
         console.log(response);
@@ -31,7 +42,7 @@ function Login() {
         ).then((res) => {
             console.log(res.data);
             localStorage.setItem("token",res.data.token);
-            navigate("/userInfo")
+           navigate("/userInfo")
         },
             (error) => { console.log(error) });
 
@@ -40,14 +51,15 @@ function Login() {
         console.log(error);
     };
     return (
-        <div className='login-page'>
+     <div className='container'>
+   <div className='login-page'>
             <Box style={{}}
                 component="form"
                 noValidate
                 autoComplete="off">
-                <TextField id="outlined-basic" onChange={handleChange} label="Email" variant="outlined" className='mb-3' />
+                <TextField id="outlined-basic" name ="name" onChange={handleChange} label="Email" variant="outlined" className='mb-3' placeholder='Email'/>
                 <br />
-                <TextField id="outlined-basic" onChange={handleChange} label="Password" variant="outlined" />
+                <TextField id="outlined-basic" name='pass' onChange={handleChange} label="Password" variant="outlined" placeholder='Password' />
                 <br />
                 <IconButton aria-label="fingerprint" onClick={handleSubmit} style={{ width: 50 }} color="secondary">
                     <Fingerprint />
@@ -59,6 +71,7 @@ function Login() {
 
             </Box>
         </div>
+     </div>
 
     )
 }
